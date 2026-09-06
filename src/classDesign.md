@@ -2,12 +2,11 @@
 
 class Warpath:
 
-    - gameRunner: GameRunner
+    // entry point
+    // DI
 
 class GameRunner:
 
-    - players: List<Player>
-    - board: Board
-
-    + GameRunner() -> void
-    + run() -> void
+    + run
+    + provide options
+    + startGame ? -> NO
