@@ -1,9 +1,13 @@
 package Orchestration;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import Interfaces.IOInterface;
+import Models.Player;
 
 public class Game {
-    // all players
+    // all players: List<Player>
     // board 
     // Dice
     // GameState // IN_PROGRESS GAME_OVER
@@ -14,12 +18,19 @@ public class Game {
 
     private final IOInterface ioInterface;
 
+    private List<Player> players;
+
     public Game(IOInterface ioInterface){
         this.ioInterface = ioInterface;
+        this.players = new ArrayList<>();
     }
 
     public void start(){
-        // getnumberof players
+        int numberOfPlayers = getNumberOfPlayers();
+        ioInterface.write("Enter player info for " + numberOfPlayers + " players one by one");
+        this.players = getPlayerInfo(numberOfPlayers);
+
+        
         // for number of players get their info and assign them pieces
         // shuffle player order and create board(numberOfPlayers, PieceTypesThisGame);
         // show board !
@@ -35,4 +46,40 @@ public class Game {
     }
 
     // Private Methods
+    private int getNumberOfPlayers(){
+        int numberOfPlayers = 0;
+        boolean validPlayerCount = false;
+        while (!validPlayerCount) {
+            try {
+                ioInterface.write("Please Enter the number of players participating");
+                String input = ioInterface.read();
+                numberOfPlayers = Integer.parseInt(input);
+
+                if(numberOfPlayers <= 0 || numberOfPlayers > 4){
+                    throw new NumberFormatException();
+                }
+                validPlayerCount = true;
+            } catch (NumberFormatException e) {
+                ioInterface.write("NumberFormatException -> Please enter valid number of players [1 - 4]" + e);
+            }
+        }
+
+        return numberOfPlayers;
+    }
+
+    private List<Player> getPlayerInfo(int numberOfPlayers){
+        for(int i = 1; i <= numberOfPlayers; i++){
+            ioInterface.write("Enter player" + i  + " name");
+            String name = ioInterface.read();
+
+            Player player = createNewPlayer(name);
+            players.add(player);
+        }
+
+        return players;
+    }
+
+    private Player createNewPlayer(String playerName){
+        return new Player(playerName);
+    }
 }
