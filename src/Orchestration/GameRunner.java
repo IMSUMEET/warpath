@@ -58,6 +58,4 @@ public class GameRunner {
             }
         }
     }
-
-    // Private Methods
 }

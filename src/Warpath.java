@@ -4,6 +4,7 @@ import java.util.Scanner;
 import IO.ConsoleIO;
 import Interfaces.IOInterface;
 import Orchestration.Game;
+import Factory.PlayerFactory;
 
 public class Warpath {
     public static void main(String[] args){
@@ -12,7 +13,10 @@ public class Warpath {
         Scanner scanner = new Scanner(System.in);
 
         IOInterface ioInterface = new ConsoleIO(scanner);
-        Game game = new Game(ioInterface);
+
+       PlayerFactory playerFactory = new PlayerFactory();
+
+        Game game = new Game(ioInterface, playerFactory);
         GameRunner gameRunner = new GameRunner(ioInterface, game);
         gameRunner.run();
         

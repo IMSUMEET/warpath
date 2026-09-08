@@ -2,8 +2,8 @@
 
 class Warpath:
 
-    // entry point
-    // DI
+    - entry point
+    - DI
 
 class GameRunner:
 

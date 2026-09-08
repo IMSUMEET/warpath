@@ -4,11 +4,9 @@ import Enums.PieceType;
 
 public class Piece {
     private final PieceType pieceType;
-    private final String emote;
 
-    public Piece(PieceType pieceType, String emote){
+    public Piece(PieceType pieceType){
         this.pieceType = pieceType;
-        this.emote = emote;
     }
 
     public PieceType getPieceType(){
@@ -16,7 +14,6 @@ public class Piece {
     }
 
     public String getEmote(){
-        return this.emote;
+        return this.pieceType.getEmote();
     }
-
 }
