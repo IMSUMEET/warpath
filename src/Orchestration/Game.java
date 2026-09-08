@@ -5,6 +5,8 @@ import java.util.*;
 import Interfaces.IOInterface;
 import Models.Player;
 import Factory.PlayerFactory;
+import Factory.BoardFactory;
+import Factory.DiceFactory;
 import Enums.PieceType;
 
 public class Game {
@@ -18,12 +20,24 @@ public class Game {
 
     private final IOInterface ioInterface;
     private final PlayerFactory playerFactory;
+    private final BoardFactory boardFactory;
+    private final DiceFactory diceFactory;
 
     private List<Player> players;
+    private Board board;
+    private Dice dice;
 
-    public Game(IOInterface ioInterface, PlayerFactory playerFactory){
+    public Game(
+        IOInterface ioInterface,
+        PlayerFactory playerFactory,
+        BoardFactory boardFactory,
+        DiceFactory diceFactory
+        ){
         this.ioInterface = ioInterface;
         this.playerFactory = playerFactory;
+        this.boardFactory = boardFactory;
+        this.diceFactory = diceFactory;
+
         this.players = new ArrayList<>();
     }
 
@@ -32,11 +46,18 @@ public class Game {
         ioInterface.write("Enter player info for " + numberOfPlayers + " players one by one");
         this.players = getPlayerInfo(numberOfPlayers);
         Collections.shuffle(players);
+        this.board = BoardFactory.createNewBoard(players);
+        this.dice = DiceFactory.createNewDice();
+
+
+
+
 
         
 
+        
 
-        // shuffle player order and create board(numberOfPlayers, PieceTypesThisGame);
+        // create board(players);
         // show board !
         // while GameState is not GAME_OVER
             // Each player rolls dice in (clockwise order)

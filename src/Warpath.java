@@ -14,9 +14,11 @@ public class Warpath {
 
         IOInterface ioInterface = new ConsoleIO(scanner);
 
-       PlayerFactory playerFactory = new PlayerFactory();
+        PlayerFactory playerFactory = new PlayerFactory();
+        BoardFactory boardFactory = new BoardFactory();
+        DiceFactory diceFactory = new DiceFactory();
 
-        Game game = new Game(ioInterface, playerFactory);
+        Game game = new Game(ioInterface, playerFactory, boardFactory, diceFactory);
         GameRunner gameRunner = new GameRunner(ioInterface, game);
         gameRunner.run();
         
