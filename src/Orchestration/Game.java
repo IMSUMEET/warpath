@@ -4,6 +4,8 @@ import java.util.*;
 
 import Interfaces.IOInterface;
 import Models.Player;
+import Models.Dice;
+import Models.Board;
 import Factory.PlayerFactory;
 import Factory.BoardFactory;
 import Factory.DiceFactory;
@@ -22,6 +24,7 @@ public class Game {
     private final PlayerFactory playerFactory;
     private final BoardFactory boardFactory;
     private final DiceFactory diceFactory;
+    private final PieceFactory pieceFactory;
 
     private List<Player> players;
     private Board board;
@@ -31,12 +34,14 @@ public class Game {
         IOInterface ioInterface,
         PlayerFactory playerFactory,
         BoardFactory boardFactory,
-        DiceFactory diceFactory
+        DiceFactory diceFactory,
+        PieceFactory pieceFactory
         ){
         this.ioInterface = ioInterface;
         this.playerFactory = playerFactory;
         this.boardFactory = boardFactory;
         this.diceFactory = diceFactory;
+        this.pieceFactory = pieceFactory;
 
         this.players = new ArrayList<>();
     }
@@ -45,17 +50,16 @@ public class Game {
         int numberOfPlayers = getNumberOfPlayers();
         ioInterface.write("Enter player info for " + numberOfPlayers + " players one by one");
         this.players = getPlayerInfo(numberOfPlayers);
-        Collections.shuffle(players);
-        this.board = BoardFactory.createNewBoard(players);
+        printPlayers();
+        shufflePlayers();
+        this.board = BoardFactory.createNewBoard(players, pieceFactory);
         this.dice = DiceFactory.createNewDice();
-
-
-
-
-
         
 
-        
+
+
+
+
 
         // create board(players);
         // show board !
@@ -80,9 +84,10 @@ public class Game {
                 String input = ioInterface.read();
                 numberOfPlayers = Integer.parseInt(input);
 
-                if(numberOfPlayers <= 0 || numberOfPlayers > 4){
+                if(numberOfPlayers <= 1 || numberOfPlayers > 4){
                     throw new NumberFormatException();
                 }
+                
                 validPlayerCount = true;
             } catch (NumberFormatException e) {
                 ioInterface.write("NumberFormatException -> Please enter valid number of players [1 - 4]" + e);
@@ -93,6 +98,9 @@ public class Game {
     }
 
     private List<Player> getPlayerInfo(int numberOfPlayers){
+
+        List<Player> participants = new ArrayList<>();
+
         Map<String, PieceType> availablePieceType = new HashMap<>(
             Map.of(
                 "ember", PieceType.EMBER,
@@ -128,15 +136,18 @@ public class Game {
             }
 
             Player player = playerFactory.createNewPlayer(name, currentPlayerPieceType);
-            players.add(player);
+            participants.add(player);
         }
-        printPlayers();
-        return players;
+        return participants;
     }
 
     private void printPlayers(){
         for(Player player : this.players){
             ioInterface.write(player.getPlayerName() + " has selected " + player.getPieceType());
         }
+    }
+
+    private void shufflePlayers(){
+        Collections.shuffle(this.players);
     }
 }

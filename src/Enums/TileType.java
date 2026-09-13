@@ -1,6 +1,6 @@
 package Enums;
 
-public Enum TileType {
+public enum TileType {
     COMMON,
     BASE,
     PORTAL,
