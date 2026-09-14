@@ -1,6 +1,8 @@
 package Factory;
+import Models.Tile;
+import Enums.TileType;
 
-class TileFactory {
+public class TileFactory {
     public static Tile createNewTile(int row, int col, TileType tileType){
         return new Tile(row, col, tileType);
     }

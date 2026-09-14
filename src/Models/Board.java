@@ -1,9 +1,13 @@
 package Models;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import Models.Tile;
 import Factory.PieceFactory;
+import Factory.TileFactory;
+import Enums.TileType;
 
 public class Board {
     Tile[][] board;
@@ -11,14 +15,16 @@ public class Board {
     Map<Piece, Tile> pieceToTileMapping;
     
     private final PieceFactory pieceFactory; 
+    private final TileFactory tileFactory;
     // at a given stage in the game get all the pieces and its pos for a player
 
 
 
 
-    public Board(List<Player> players, PieceFactory pieceFactory){
+    public Board(List<Player> players, PieceFactory pieceFactory, TileFactory tileFactory){
         this.board = new Tile[5][5];
-        this.pieceFactory = PieceFactory;
+        this.pieceFactory = pieceFactory;
+        this.tileFactory = tileFactory;
 
         // set tiletypes for all tiles {}
         // set path -> anticlockwise outer and clockwise inner
@@ -31,7 +37,7 @@ public class Board {
 
         for(int row = 0; row < 5; row++){
             for(int col = 0; col < 5; col++){
-                board[row][col] = TileFactory.createNewTile(row, col, TileType.COMMON);
+                board[row][col] = tileFactory.createNewTile(row, col, TileType.COMMON);
             }
         }
 
@@ -68,9 +74,11 @@ public class Board {
         
         int numPlayer = players.size();
         for(Player player: players){
-            pieceFactory.createNewPiece(player.getPieceType());
+            for( int i = 0; i < 4; i++){
+                pieceFactory.createNewPiece(player.getPieceType());
+            }
         }
-
+        // 4 pieces per player
     }
     
     

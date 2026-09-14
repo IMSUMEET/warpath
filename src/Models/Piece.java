@@ -1,6 +1,7 @@
 package Models;
 
 import Enums.PieceType;
+import Enums.PieceWeight;
 
 
 public class Piece {

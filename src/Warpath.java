@@ -7,6 +7,8 @@ import Orchestration.Game;
 import Factory.PlayerFactory;
 import Factory.BoardFactory;
 import Factory.DiceFactory;
+import Factory.PieceFactory;
+import Factory.TileFactory;
 
 public class Warpath {
     public static void main(String[] args){
@@ -19,10 +21,12 @@ public class Warpath {
         PlayerFactory playerFactory = new PlayerFactory();
         BoardFactory boardFactory = new BoardFactory();
         DiceFactory diceFactory = new DiceFactory();
+        TileFactory tileFactory = new TileFactory();
         PieceFactory pieceFactory = new PieceFactory();
 
 
-        Game game = new Game(ioInterface, playerFactory, boardFactory, diceFactory, pieceFactory);
+
+        Game game = new Game(ioInterface, playerFactory, boardFactory, diceFactory, pieceFactory, tileFactory);
         GameRunner gameRunner = new GameRunner(ioInterface, game);
         gameRunner.run();
         
