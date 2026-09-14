@@ -57,7 +57,7 @@ public class Game {
         this.players = getPlayerInfo(numberOfPlayers);
         printPlayers();
         shufflePlayers();
-        this.board = boardFactory.createNewBoard(players, pieceFactory, tileFactory);
+        this.board = boardFactory.createNewBoard(players, pieceFactory, tileFactory, ioInterface);
         this.dice = diceFactory.createNewDice();
         
 
@@ -154,5 +154,6 @@ public class Game {
 
     private void shufflePlayers(){
         Collections.shuffle(this.players);
+        ioInterface.write("Players shuffled..");
     }
 }
