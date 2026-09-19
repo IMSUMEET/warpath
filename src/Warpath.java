@@ -2,6 +2,7 @@ import Orchestration.GameRunner;
 
 import IO.ConsoleIO;
 import Orchestration.Game;
+import Service.PlayerRegistration;
 import Factory.PlayerFactory;
 import Factory.BoardFactory;
 import Factory.DiceFactory;
@@ -18,8 +19,9 @@ public class Warpath {
             TileFactory tileFactory = new TileFactory();
             PieceFactory pieceFactory = new PieceFactory();
             BoardFactory boardFactory = new BoardFactory(tileFactory, pieceFactory);
+            PlayerRegistration playerRegistration = new PlayerRegistration(ioInterface, playerFactory);
 
-            Game game = new Game(ioInterface, playerFactory, boardFactory, diceFactory);
+            Game game = new Game(ioInterface, playerRegistration, boardFactory, diceFactory);
             GameRunner gameRunner = new GameRunner(ioInterface, game);
             gameRunner.run();
         }

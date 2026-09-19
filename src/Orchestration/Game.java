@@ -6,10 +6,9 @@ import Interfaces.IOInterface;
 import Models.Player;
 import Models.Dice;
 import Models.Board;
-import Factory.PlayerFactory;
 import Factory.BoardFactory;
 import Factory.DiceFactory;
-import Enums.PieceType;
+import Service.PlayerRegistration;
 
 public class Game {
     // all players: List<Player>
@@ -21,7 +20,7 @@ public class Game {
     // currentPlayerTurn : Player
 
     private final IOInterface ioInterface;
-    private final PlayerFactory playerFactory;
+    private final PlayerRegistration playerRegistration;
     private final BoardFactory boardFactory;
     private final DiceFactory diceFactory;
 
@@ -31,12 +30,12 @@ public class Game {
 
     public Game(
         IOInterface ioInterface,
-        PlayerFactory playerFactory,
+        PlayerRegistration playerRegistration,
         BoardFactory boardFactory,
         DiceFactory diceFactory
         ){
         this.ioInterface = ioInterface;
-        this.playerFactory = playerFactory;
+        this.playerRegistration = playerRegistration;
         this.boardFactory = boardFactory;
         this.diceFactory = diceFactory;
 
@@ -44,19 +43,10 @@ public class Game {
     }
 
     public void start(){
-        int numberOfPlayers = getNumberOfPlayers();
-        ioInterface.write("Enter player info for " + numberOfPlayers + " players one by one");
-        this.players = getPlayerInfo(numberOfPlayers);
-        printPlayers();
+        this.players = playerRegistration.registerPlayers();
         shufflePlayers();
         this.board = boardFactory.createNewBoard(players, ioInterface);
         this.dice = diceFactory.createNewDice();
-        
-
-
-
-
-
 
         // create board(players);
         // show board !
@@ -72,78 +62,6 @@ public class Game {
     }
 
     // Private Methods
-    private int getNumberOfPlayers(){
-        int numberOfPlayers = 0;
-        boolean validPlayerCount = false;
-        while (!validPlayerCount) {
-            try {
-                ioInterface.write("Please Enter the number of players participating");
-                String input = ioInterface.read();
-                numberOfPlayers = Integer.parseInt(input);
-
-                if(numberOfPlayers <= 1 || numberOfPlayers > 4){
-                    throw new NumberFormatException();
-                }
-                
-                validPlayerCount = true;
-            } catch (NumberFormatException e) {
-                ioInterface.write("NumberFormatException -> Please enter valid number of players [1 - 4]" + e);
-            }
-        }
-
-        return numberOfPlayers;
-    }
-
-    private List<Player> getPlayerInfo(int numberOfPlayers){
-
-        List<Player> participants = new ArrayList<>();
-
-        Map<String, PieceType> availablePieceType = new HashMap<>(
-            Map.of(
-                "ember", PieceType.EMBER,
-                "frost", PieceType.FROST,
-                "storm", PieceType.STORM,
-                "thorn", PieceType.THORN
-            )
-        );
-        
-        for(int i = 1; i <= numberOfPlayers; i++){
-            ioInterface.write("Enter player" + i  + " name");
-            String name = ioInterface.read();
-            
-            PieceType currentPlayerPieceType = null;
-                
-            while(currentPlayerPieceType == null){
-                ioInterface.write("Select pieceType from below for " + name);
-                // 1:Ember 2:Frost 3:Storm 4:Thorn
-                ioInterface.write(availablePieceType.toString());
-
-                try {
-                    String input = ioInterface.read().toLowerCase();
-                    
-                    if(availablePieceType.containsKey(input)){
-                        currentPlayerPieceType = availablePieceType.get(input);
-                        availablePieceType.remove(input);
-                    }else{
-                        throw new Exception();
-                    }
-                }catch (Exception e){
-                    ioInterface.write("Invalid Piece Type " + e);
-                }
-            }
-
-            Player player = playerFactory.createNewPlayer(name, currentPlayerPieceType);
-            participants.add(player);
-        }
-        return participants;
-    }
-
-    private void printPlayers(){
-        for(Player player : this.players){
-            ioInterface.write(player.getPlayerName() + " has selected " + player.getPieceType());
-        }
-    }
-
     private void shufflePlayers(){
         Collections.shuffle(this.players);
         ioInterface.write("Players shuffled..");
