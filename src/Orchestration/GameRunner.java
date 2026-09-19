@@ -8,29 +8,21 @@ public class GameRunner {
     private final IOInterface ioInterface;
     private final Game game;
 
-
-    // Private Variables
-    private boolean isRunning;
-
     // Contructor
     public GameRunner(IOInterface ioInterface, Game game){
         this.ioInterface = ioInterface;
         this.game = game;
-        this.isRunning = false;
     }
 
     // Public methods
     public void run(){
-        this.isRunning = true;
+        boolean isRunning = true;
 
         // Greeting user
         ioInterface.write("Welcome to the game.");
     
         while(isRunning){
-            ioInterface.write("Choose option.");
-            ioInterface.write("1. Start the Game");
-            ioInterface.write("2. About the Game");
-            ioInterface.write("3. Exit");
+            printMenu();
 
             String input = ioInterface.read();
             int option = 0;
@@ -47,7 +39,7 @@ public class GameRunner {
                     case 3:
                         // Exit
                         ioInterface.write("Bye bye");
-                        this.isRunning = false;
+                        isRunning = false;
                         break;
                     default:
                         ioInterface.write("Invalid Input try again");
@@ -57,5 +49,13 @@ public class GameRunner {
                 ioInterface.write("Invalid input " + e + "TRY Again");
             }
         }
+    }
+
+    // Private methods
+    private void printMenu(){
+        ioInterface.write("Choose option.");
+        ioInterface.write("1. Start the Game");
+        ioInterface.write("2. About the Game");
+        ioInterface.write("3. Exit");
     }
 }
