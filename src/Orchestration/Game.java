@@ -9,8 +9,6 @@ import Models.Board;
 import Factory.PlayerFactory;
 import Factory.BoardFactory;
 import Factory.DiceFactory;
-import Factory.TileFactory;
-import Factory.PieceFactory;
 import Enums.PieceType;
 
 public class Game {
@@ -26,8 +24,6 @@ public class Game {
     private final PlayerFactory playerFactory;
     private final BoardFactory boardFactory;
     private final DiceFactory diceFactory;
-    private final PieceFactory pieceFactory;
-    private final TileFactory tileFactory;
 
     private List<Player> players;
     private Board board;
@@ -37,16 +33,12 @@ public class Game {
         IOInterface ioInterface,
         PlayerFactory playerFactory,
         BoardFactory boardFactory,
-        DiceFactory diceFactory,
-        PieceFactory pieceFactory,
-        TileFactory tileFactory
+        DiceFactory diceFactory
         ){
         this.ioInterface = ioInterface;
         this.playerFactory = playerFactory;
         this.boardFactory = boardFactory;
         this.diceFactory = diceFactory;
-        this.pieceFactory = pieceFactory;
-        this.tileFactory = tileFactory;
 
         this.players = new ArrayList<>();
     }
@@ -57,7 +49,7 @@ public class Game {
         this.players = getPlayerInfo(numberOfPlayers);
         printPlayers();
         shufflePlayers();
-        this.board = boardFactory.createNewBoard(players, pieceFactory, tileFactory, ioInterface);
+        this.board = boardFactory.createNewBoard(players, ioInterface);
         this.dice = diceFactory.createNewDice();
         
 

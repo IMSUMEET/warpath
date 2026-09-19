@@ -9,7 +9,15 @@ import Factory.TileFactory;
 import Factory.PieceFactory;
 
 public class BoardFactory {
-    public Board createNewBoard(List<Player> players, PieceFactory pieceFactory,TileFactory tileFactory, IOInterface ioInterface){
+    private final TileFactory tileFactory;
+    private final PieceFactory pieceFactory;
+
+    public BoardFactory(TileFactory tileFactory, PieceFactory pieceFactory){
+        this.tileFactory = tileFactory;
+        this.pieceFactory = pieceFactory;
+    }
+
+    public Board createNewBoard(List<Player> players, IOInterface ioInterface){
         return new Board(players, pieceFactory, tileFactory, ioInterface);
     }
 }

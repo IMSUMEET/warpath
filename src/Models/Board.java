@@ -2,10 +2,8 @@ package Models;
 
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import Interfaces.IOInterface;
-import Models.Tile;
 import Factory.PieceFactory;
 import Factory.TileFactory;
 import Enums.TileType;
