@@ -6,6 +6,7 @@ import Service.PlayerRegistration;
 import Factory.PlayerFactory;
 import Factory.BoardFactory;
 import Factory.DiceFactory;
+import Factory.FactionFactory;
 import Factory.PieceFactory;
 import Factory.TileFactory;
 
@@ -18,7 +19,8 @@ public class Warpath {
             DiceFactory diceFactory = new DiceFactory();
             TileFactory tileFactory = new TileFactory();
             PieceFactory pieceFactory = new PieceFactory();
-            BoardFactory boardFactory = new BoardFactory(tileFactory, pieceFactory);
+            FactionFactory factionFactory = new FactionFactory();
+            BoardFactory boardFactory = new BoardFactory(pieceFactory, tileFactory, factionFactory);
             PlayerRegistration playerRegistration = new PlayerRegistration(ioInterface, playerFactory);
 
             Game game = new Game(ioInterface, playerRegistration, boardFactory, diceFactory);

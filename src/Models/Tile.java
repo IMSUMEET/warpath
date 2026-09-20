@@ -43,6 +43,4 @@ public class Tile{
     }
     // in the board, check existing pieceTypes and act accordingly
     
-
-
 }

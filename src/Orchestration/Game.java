@@ -2,9 +2,11 @@ package Orchestration;
 
 import java.util.*;
 
+import Enums.PieceType;
 import Interfaces.IOInterface;
 import Models.Player;
 import Models.Dice;
+import Models.Piece;
 import Models.Board;
 import Factory.BoardFactory;
 import Factory.DiceFactory;
@@ -26,7 +28,7 @@ public class Game {
 
     private List<Player> players;
     private Board board;
-    private Dice dice;
+    private List<PieceType> activePieceTypes;
 
     public Game(
         IOInterface ioInterface,
@@ -44,9 +46,11 @@ public class Game {
 
     public void start(){
         this.players = playerRegistration.registerPlayers();
-        shufflePlayers();
-        this.board = boardFactory.createNewBoard(players, ioInterface);
-        this.dice = diceFactory.createNewDice();
+        this.activePieceTypes = getActivePieceTypes();
+        this.board = boardFactory.createNewBoard(activePieceTypes);
+        this.board.show();
+
+        // players -> [pieceType <-> Faction] <-> | board
 
         // create board(players);
         // show board !
@@ -61,9 +65,11 @@ public class Game {
         ioInterface.write("Blah blah blah.");
     }
 
-    // Private Methods
-    private void shufflePlayers(){
-        Collections.shuffle(this.players);
-        ioInterface.write("Players shuffled..");
+    private List<PieceType> getActivePieceTypes(){
+        List<PieceType> list = new ArrayList<>();
+        for(Player player : players){
+            list.add(player.getPieceType());
+        }
+        return list;
     }
 }

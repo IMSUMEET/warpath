@@ -20,7 +20,6 @@ public class PlayerRegistration {
         this.playerFactory = playerFactory;
     }
 
-    // Builds the roster interactively and hands it back to the caller.
     public List<Player> registerPlayers(){
         int numberOfPlayers = getNumberOfPlayers();
         ioInterface.write("Enter player info for " + numberOfPlayers + " players one by one");
@@ -56,14 +55,10 @@ public class PlayerRegistration {
 
         List<Player> participants = new ArrayList<>();
 
-        Map<String, PieceType> availablePieceType = new HashMap<>(
-            Map.of(
-                "ember", PieceType.EMBER,
-                "frost", PieceType.FROST,
-                "storm", PieceType.STORM,
-                "thorn", PieceType.THORN
-            )
-        );
+        Map<String, PieceType> availablePieceType = new HashMap<>();
+        for(PieceType pieceType : PieceType.values()){
+            availablePieceType.put(pieceType.name().toLowerCase(), pieceType);
+        }
 
         for(int i = 1; i <= numberOfPlayers; i++){
             ioInterface.write("Enter player" + i  + " name");
